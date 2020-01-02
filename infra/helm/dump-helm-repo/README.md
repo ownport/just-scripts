@@ -5,5 +5,5 @@ The script to dump Helm repo locally
 ## How to use
 
 ```sh
-./dump.py --repo-url <helm-repo-url>
+./dump.py --index-file-url <index-file-url> --target-dir <target directory>
 ```
