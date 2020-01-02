@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+set -e
+
+function usage() {
+
+    echo "usage: ./my-youtube-dl <options>"
+    echo "  - video: download video(-s)"
+    echo "  - audio: download audio(-s)"
+    exit 1
+}
+
+YOUTUBE_DL_MAIN="youtube-dl -i --download-archive .archive"
+
+function check_urls() {
+
+    local URL=${1:-}
+
+    if [ -z "${URL}" ]; then
+        echo "[WARNING] URL parameter missed, checking 'urls' file" >&2
+        
+    fi
+
+    if [ -z "${URL}" ] && [ -s "urls" ]; then
+        URL=$(cat urls)
+    fi
+
+    echo ${URL}
+}
+
+function check_config() {
+
+    if [ -s ".config" ]; then
+        echo "--config-location .config"
+    fi
+
+}
+
+function video() {
+
+    local URLS=`check_urls ${1:-}`
+    if [ -z "${URLS}" ]; then
+        echo "[ERROR] No urls for download" >&2
+        exit 1
+    fi
+
+    local CONFIG=`check_config`
+
+    echo "[INFO] Downloading video(-s)"
+    ${YOUTUBE_DL_MAIN} -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' ${CONFIG} ${URLS}
+}
+
+function audio() {
+
+    local URLS=`check_urls ${1:-}`
+    if [ -z "${URLS}" ]; then
+        echo "[ERROR] No urls for download" >&2
+        exit 1
+    fi
+
+    local CONFIG=`check_config`
+
+    echo "[INFO] Downloading audio(-s)"
+    ${YOUTUBE_DL_MAIN} -x -f 'bestaudio[ext=m4a]/m4a' ${CONFIG} ${URLS}
+}
+
+
+$@
