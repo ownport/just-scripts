@@ -1,0 +1,2 @@
+# scripts
+Just scripts collection
