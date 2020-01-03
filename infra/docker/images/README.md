@@ -16,6 +16,22 @@ Example:
 
 ### Export docker images from archive file to registry
 
-to be described later
+```sh
+./docker-images.sh export -l <docker images list> -i <tar.gz archive with docker images> --registry <registry server with port>
+```
+Example:
+```sh
+./docker-images.sh import -l samples/rancher-images.v2.3.3.list -i rancher-images.v2.3.3.tar.gz --registry localhost:5000
+```
+
+### Remove docker images from local repo
+
+```sh
+./docker-images.sh remove -l <docker images list>
+```
+Example:
+```sh
+./docker-images.sh remove -l samples/rancher-images.v2.3.3.list 
+```
 
 
